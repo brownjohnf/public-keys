@@ -1,0 +1,21 @@
+#cloud-config
+
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAiygW96I/jsjXJ85bcpd09PkJBEB2Bm+sI9j6eHHO0xKKHN3kpwhR2wgn7xcR7WkIEBcLKXKybrM7qrdX4c7mpMzf5fOW+HhlMfJ/0qFOeKPXHT7kw0aIcl5Iakekr+dk+u1bOq6hFY9Gc3tycHNPZMz7xnW1xprao930VyzVyb+da//2xJgcpbHZlLv6FUYFkbS4x+pc0/ejg6yGd67XHpBPyVepb75oojNLQMj0R/o0IRUsO4XWZSs/cL9sjoQbDqGrvGE9ezMazeiDZVHFhCExv2Z6wEdXB24rjhZcuvsjYH1gwR9sgifm5XnFTVbVbDxX00ITvuWcCErqbsCb jfbrown@ingrid
+coreos:
+  units:
+    - name: docker-tcp.socket
+      command: start
+      enable: true
+      content: |
+        [Unit]
+        Description=Docker Socket for the API
+
+        [Socket]
+        ListenStream=2375
+        BindIPv6Only=both
+        Service=docker.service
+
+        [Install]
+        WantedBy=sockets.target
+
